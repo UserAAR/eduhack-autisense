@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    const SUPABASE_URL = 'https://uyxiebkidxkuomecumaw.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGllYmtpZHhrdW9tZWN1bWF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MDEzNTUsImV4cCI6MjA2MDQ3NzM1NX0.KYlFnmapzdao6fTveUmPzXDayPo66RbnU-nb7EW0s7U';
-    const GEMINI_API_KEY = 'AIzaSyCn2CQZDmXSG1VIwFMOy2C9mBIeq7pXgrw';
+    const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+    const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';
     const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
   
     const chatMessages = document.getElementById('chat-messages');
