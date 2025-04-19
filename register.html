@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - AutiSense</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="auth.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="stars-background">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h1 class="logo-title">AutiSense</h1>
+        </a>   
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="parent.html">Parent Dashboard</a></li>
+          <li><a href="ai.html">AI Insights</a></li>
+          <li><a href="lesson.html">Lessons</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="teachers.html">Teachers</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+          <li><a href="register.html" class="btn btn-register">Register</a></li>
+        </ul>
+      </nav>
+      <div class="burger-menu">
+        <div class="burger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav">
+      <ul>
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="lesson.html">Lessons</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="teachers.html">Teachers</a></li>
+        <li><a href="ai.html">AI Insights</a></li>
+        <li><a href="parent.html">Parent Dashboard</a></li>
+        <li><a href="login.html" class="btn btn-login">Login</a></li>
+        <li><a href="register.html" class="btn btn-register">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="auth-section">
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-image scale-up">
+          <lottie-player 
+            src="https://assets3.lottiefiles.com/packages/lf20_jcikwtux.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 100%; height: 300px;" 
+            loop 
+            autoplay>
+          </lottie-player>
+        </div>
+        <div class="auth-form-container slide-up">
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-target="parent-register">Parent</button>
+            <button class="auth-tab" data-target="teacher-register">Teacher</button>
+          </div>
+          
+          <div class="auth-form active" id="parent-register">
+            <h2>Parent Registration</h2>
+            <p>Create an account to access personalized learning for your child.</p>
+            
+            <form id="parent-register-form">
+              <div class="form-group">
+                <label for="parent-name">Full Name</label>
+                <input type="text" id="parent-name" name="name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="parent-email">Email</label>
+                <input type="email" id="parent-email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="parent-password">Password</label>
+                <input type="password" id="parent-password" name="password" required minlength="8">
+                <small>Password must be at least 8 characters long</small>
+              </div>
+              
+              <div class="form-group">
+                <label for="parent-confirm-password">Confirm Password</label>
+                <input type="password" id="parent-confirm-password" name="confirm-password" required>
+              </div>
+              
+              <div class="form-group">
+                <label>Select your child's age range</label>
+                <div class="form-option">
+                  <div class="option-card" data-value="6-8">
+                    6-8 years
+                  </div>
+                  <div class="option-card" data-value="9-11">
+                    9-11 years
+                  </div>
+                  <div class="option-card" data-value="12-14">
+                    12-14 years
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="terms">
+                  <input type="checkbox" id="terms" name="terms" required>
+                  I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </label>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Create Account</button>
+              <div class="auth-message" id="parent-register-message"></div>
+            </form>
+            
+            <div class="auth-redirect">
+              <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+          </div>
+          
+          <div class="auth-form" id="teacher-register">
+            <h2>Teacher Registration</h2>
+            <p>Interested in becoming a specialized teacher? Complete our multi-step registration.</p>
+            <a href="teacher-register.html" class="btn btn-primary">Start Teacher Registration</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h3>Auti<span>Sense</span></h3>
+          <p>Making learning accessible and fun for children with autism.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lesson.html">Lessons</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="teachers.html">Teachers</a></li>
+            <li><a href="ai.html">AI Assistant</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Research</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>Email: support@autisense.com</p>
+          <p>Phone: (123) 456-7890</p>
+          <div class="social-icons">
+            <a href="#"><span>Facebook</span></a>
+            <a href="#"><span>Twitter</span></a>
+            <a href="#"><span>Instagram</span></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 AutiSense. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="supabase.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Handle option card selection
+    document.querySelectorAll('.option-card').forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove selected class from all cards in the same group
+        const group = card.closest('.form-option');
+        group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selected class to clicked card
+        card.classList.add('selected');
+      });
+    });
+    
+    // Handle parent registration form submission
+    document.getElementById('parent-register-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('parent-name').value;
+      const email = document.getElementById('parent-email').value;
+      const password = document.getElementById('parent-password').value;
+      const confirmPassword = document.getElementById('parent-confirm-password').value;
+      const ageRangeElement = document.querySelector('.option-card.selected');
+      const termsChecked = document.getElementById('terms').checked;
+      const messageElement = document.getElementById('parent-register-message');
+      
+      // Validate form
+      if (password !== confirmPassword) {
+        messageElement.textContent = 'Passwords do not match.';
+        messageElement.className = 'auth-message error';
+        return;
+      }
+      
+      if (!ageRangeElement) {
+        messageElement.textContent = 'Please select your child\'s age range.';
+        messageElement.className = 'auth-message error';
+        return;
+      }
+      
+      if (!termsChecked) {
+        messageElement.textContent = 'You must agree to the Terms of Service and Privacy Policy.';
+        messageElement.className = 'auth-message error';
+        return;
+      }
+      
+      const ageRange = ageRangeElement.dataset.value;
+      
+      try {
+        // Clear previous messages
+        messageElement.textContent = 'Creating your account...';
+        messageElement.className = 'auth-message';
+        
+        // Sign up with Supabase
+        const userData = {
+          role: 'parent',
+          name: name,
+          child_age_range: ageRange
+        };
+        
+        await signUp(email, password, userData);
+        
+        messageElement.textContent = 'Registration successful! Redirecting to login...';
+        messageElement.className = 'auth-message success';
+        
+        // Redirect to login page
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      } catch (error) {
+        messageElement.textContent = error.message || 'Failed to register. Please try again.';
+        messageElement.className = 'auth-message error';
+      }
+    });
+  </script>
+</body>
+</html>

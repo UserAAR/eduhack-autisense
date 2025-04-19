@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Object game</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; font-family: sans-serif; overflow: hidden; }
+    #gameContainer {  
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: url('4/sebet.png') center/cover no-repeat;
+    }
+    #instruction {
+      position: absolute; top: 5%; width: 100%; text-align: center;
+      font-size: 24px; background: rgba(255,255,255,0.8);
+      padding: 8px; z-index: 10; white-space: nowrap; overflow: hidden;
+    }
+    .item {
+      position: absolute; width: 100px; height: auto;
+      cursor: pointer; transition: transform 0.2s;
+      z-index: 20;
+    }
+    .item:hover { transform: scale(1.1); }
+    .overlay {
+      position: absolute; pointer-events: none; z-index: 30; height: auto;
+    }
+    #congratsModal {
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      background: #4caf50; color: white; padding: 20px 40px;
+      border-radius: 8px; font-size: 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: top 0.6s ease; z-index: 40;
+    }
+    #congratsModal.show { top: 20px; }
+  </style>
+  <!-- Load Supabase client library first -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>  <!-- Load correct UMD build -->
+</head>
+<body>
+  <div id="gameContainer">
+    <div id="instruction">Alma ilə Qarpızı işarətləyin</div>
+    <div id="congratsModal">🎉 Congrats!</div>
+  </div>
+
+  <script>
+    // --- Supabase Setup (after library is loaded) ---
+    const SUPABASE_URL = 'https://tjownirlcpelpuhscyrh.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqb3duaXJsY3BlbHB1aHNjeXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwNTc2MDAsImV4cCI6MjA2MDYzMzYwMH0.f6Hph19bxqjtvck6Dm5Q50TEBMe41VNOvXdbBHMPo0U';
+    // Use a different variable name to avoid shadowing global 'supabase'
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- Configuration ---
+    const interactionSound = new Audio('typing.mp3');
+    const congratsSound = new Audio('congrats.mp3');
+    const OVERLAY_SCALE = 1.7;
+    const CIRCLE_SRC = 'circle.png';
+    const REDIRECT_ENABLED = true;
+    const REDIRECT_URL = 'objects2.html';
+    const REDIRECT_DELAY = 3000;
+
+    // --- Tracking ---
+    const childId = 'child_123';
+    const gameId = 'object1';
+    const gameContent = 'Alma ilə Qarpızı işarətləyin';
+    let clickCount = 0;
+    let touchCount = 0;
+    const startTime = Date.now();
+
+    document.addEventListener('click', () => clickCount++);
+    document.addEventListener('touchstart', () => touchCount++);
+
+    const gameData = {
+      correctAnswers: ['fruit1','fruit2'],
+      allAnswers: [
+        { name: 'fruit1',   src: '4/fruit1.png' },
+        { name: 'fruit2',   src: '4/fruit2.png' }, 
+        { name: 'fruit3',   src: '4/fruit3.png' },
+       { name: 'fruit4',   src: '4/fruit4.png' },
+       { name: 'fruit5',   src: '4/fruit5.png' },
+      ],
+      positions: [
+        { x:'10%', y:'20%' },
+        { x:'45%', y:'15%' },
+        { x:'80%', y:'20%' },
+        { x:'30%', y:'60%' },
+        { x:'65%', y:'60%' }
+      ]
+    };
+
+    const container = document.getElementById('gameContainer');
+    const modal = document.getElementById('congratsModal');
+    let completed = false;
+
+    document.addEventListener('keydown', () => {
+      interactionSound.currentTime = 0;
+      interactionSound.play().catch(() => {});
+    });
+
+    gameData.allAnswers.forEach((item, idx) => {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.name;
+      img.className = 'item';
+      img.style.left = gameData.positions[idx].x;
+      img.style.top  = gameData.positions[idx].y;
+      img.dataset.name = item.name;
+
+      img.addEventListener('click', async () => {
+        if (completed) return;
+        interactionSound.currentTime = 0;
+        interactionSound.play().catch(() => {});
+
+        const isSelected = img.classList.toggle('selected');
+        if (isSelected) {
+          const overlay = document.createElement('img');
+          overlay.src = CIRCLE_SRC;
+          overlay.className = 'overlay';
+          overlay.dataset.for = item.name;
+          const rect = img.getBoundingClientRect();
+          const scaleW = rect.width * OVERLAY_SCALE;
+          const offsetX = (scaleW - rect.width) / -2;
+          const offsetY = (scaleW - rect.height) / -2;
+          overlay.style.width = scaleW + 'px';
+          overlay.style.left = `calc(${gameData.positions[idx].x} + ${offsetX}px)`;
+          overlay.style.top  = `calc(${gameData.positions[idx].y} + ${offsetY}px)`;
+          container.appendChild(overlay);
+        } else {
+          const ex = container.querySelector(`.overlay[data-for='${item.name}']`);
+          if (ex) ex.remove();
+        }
+
+        const picked = Array.from(container.querySelectorAll('.overlay')).map(o => o.dataset.for);
+        if (picked.length === gameData.correctAnswers.length &&
+            picked.every(n => gameData.correctAnswers.includes(n))) {
+          completed = true;
+          setTimeout(async () => {
+            modal.classList.add('show');
+            congratsSound.play().catch(() => {});
+            const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+            await supabaseClient.from('game_results').insert([{ 
+              child_id: childId,
+              game_id: gameId,
+              game_content: gameContent,
+              click_count: clickCount,
+              touch_count: touchCount,
+              time_spent: timeSpent
+            }]);
+            if (REDIRECT_ENABLED) {
+              setTimeout(() => { window.location.href = REDIRECT_URL; }, REDIRECT_DELAY);
+            }
+          }, 2000);
+        }
+      });
+
+      container.appendChild(img);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutiSense - AI-powered Autism Learning Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="stars-background">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h1 class="logo-title">AutiSense</h1>
+        </a>   
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="parent.html">Parent Dashboard</a></li>
+          <li><a href="ai.html">AI Insights</a></li>
+          <li><a href="lesson.html">Lessons</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="teachers.html">Teachers</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+          <li><a href="register.html" class="btn btn-register">Register</a></li>
+        </ul>
+      </nav>
+      <div class="burger-menu">
+        <div class="burger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav">
+      <ul>
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="lesson.html">Lessons</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="teachers.html">Teachers</a></li>
+        <li><a href="ai.html">AI Insights</a></li>
+        <li><a href="parent.html">Parent Dashboard</a></li>
+        <li><a href="login.html" class="btn btn-login">Login</a></li>
+        <li><a href="register.html" class="btn btn-register">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h2>Learning Made <span class="highlight">Fun</span> and <span class="highlight">Accessible</span></h2>
+        <p>An AI-powered platform designed specially for children with autism to learn, play, and grow at their own pace.</p>
+        <div class="hero-buttons">
+          <a href="games.html" class="btn btn-primary pulse">Get Started</a>
+          <a href="ai.html" class="btn btn-secondary">Learn More</a>
+        </div>        
+      </div>
+      <div class="hero-image">
+        <lottie-player 
+          src="https://assets9.lottiefiles.com/packages/lf20_l3qxn9jy.json" 
+          background="transparent" 
+          speed="1" 
+          style="width: 100%; height: 400px;" 
+          loop 
+          autoplay>
+        </lottie-player>
+      </div>
+    </div>
+    <div class="wave-bottom">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <!-- <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,154.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path> -->
+      </svg>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Explore Our <span class="highlight">Features</span></h2>
+      <div class="features-grid">
+        <div class="feature-card" data-aos="zoom-in">
+          <div class="feature-icon">
+            <lottie-player 
+              src="https://assets3.lottiefiles.com/packages/lf20_iorpbol0.json" 
+              background="transparent" 
+              speed="1" 
+              style="width: 120px; height: 120px;" 
+              loop 
+              autoplay>
+            </lottie-player>
+          </div>
+          <h3>Interactive Lessons</h3>
+          <p>Engaging, visual-based lessons designed specifically for children with autism.</p>
+          <a href="lesson.html" class="btn btn-small">Explore Lessons</a>
+        </div>
+
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="feature-icon">
+            <lottie-player 
+              src="https://assets9.lottiefiles.com/private_files/lf30_hsabbeks.json" 
+              background="transparent" 
+              speed="1" 
+              style="width: 120px; height: 120px;" 
+              loop 
+              autoplay>
+            </lottie-player>
+          </div>
+          <h3>Fun Games</h3>
+          <p>Educational games that make learning enjoyable while developing essential skills.</p>
+          <a href="games.html" class="btn btn-small">Play Games</a>
+        </div>
+
+        <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+          <div class="feature-icon">
+            <lottie-player 
+              src="https://assets5.lottiefiles.com/packages/lf20_ydo1amjm.json" 
+              background="transparent" 
+              speed="1" 
+              style="width: 120px; height: 120px;" 
+              loop 
+              autoplay>
+            </lottie-player>
+          </div>
+          <h3>AI Support</h3>
+          <p>Personalized AI assistant to provide guidance and answer questions.</p>
+          <a href="ai.html" class="btn btn-small">Try AI Assistant</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="blob-bg">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#FF9AA2" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-1.5C87,13.3,81.3,26.6,73.5,39.5C65.7,52.4,55.8,64.8,42.7,72.5C29.5,80.3,14.8,83.2,0.7,82.1C-13.3,81,-26.7,75.8,-39.8,68.7C-53,61.6,-65.9,52.6,-73.7,40C-81.6,27.4,-84.4,11.2,-83.4,-4.9C-82.4,-21,-77.5,-37.1,-68.3,-49.7C-59.1,-62.3,-45.5,-71.5,-31.2,-78.6C-16.8,-85.7,-1.7,-90.7,12.2,-88.5C26.1,-86.3,52.1,-77,71,-59.9L73,-53L73,-47C73,-47,73,-39,73,-31C72,-23,68,-13,60,-2C52,9,39,23,26,31C13,40,0,45,-12,46C-24,47,-49,43,-62,31C-75,19,-79,0,-75,-16C-71,-32,-59,-48,-45,-55C-31,-62,-16,-59,0,-59L24,-57L24,-57" transform="translate(100 100)" />
+      </svg>
+    </div>
+    <div class="container">
+      <div class="about-content">
+        <h2 class="section-title">Why <span class="highlight">AutiSense</span>?</h2>
+        <p class="subtitle">Our platform is specially designed to support the unique learning needs of children with autism.</p>
+        
+        <div class="benefits">
+          <div class="benefit">
+            <div class="benefit-icon">🎯</div>
+            <div class="benefit-text">
+              <h3>Personalized Learning</h3>
+              <p>AI technology adapts to each child's unique learning style and pace.</p>
+            </div>
+          </div>
+          
+          <div class="benefit">
+            <div class="benefit-icon">🧩</div>
+            <div class="benefit-text">
+              <h3>Skill Development</h3>
+              <p>Focused activities to improve social, communication, and cognitive skills.</p>
+            </div>
+          </div>
+          
+          <div class="benefit">
+            <div class="benefit-icon">📊</div>
+            <div class="benefit-text">
+              <h3>Progress Tracking</h3>
+              <p>Detailed insights and reports on your child's development journey.</p>
+            </div>
+          </div>
+          
+          <div class="benefit">
+            <div class="benefit-icon">👨‍👩‍👧‍👦</div>
+            <div class="benefit-text">
+              <h3>Community Support</h3>
+              <p>Connect with specialized teachers and other parents for guidance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">Parent <span class="highlight">Feedback</span></h2>
+      <div class="testimonial-slider">
+        <div class="testimonial-card active">
+          <div class="testimonial-avatar">
+            <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=parent1" alt="Parent Avatar">
+          </div>
+          <div class="testimonial-content">
+            <p>"AutiSense has been a game-changer for my son. The colorful interface and engaging activities keep him interested, and I've seen real progress in his social skills."</p>
+            <h4>Sarah Johnson</h4>
+            <span>Mother of Alex, 8</span>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">
+            <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=parent2" alt="Parent Avatar">
+          </div>
+          <div class="testimonial-content">
+            <p>"The AI assistant has been incredibly helpful in providing customized suggestions for my daughter. The platform understands her needs better than any other resource we've tried."</p>
+            <h4>Michael Thompson</h4>
+            <span>Father of Emma, 10</span>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">
+            <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=parent3" alt="Parent Avatar">
+          </div>
+          <div class="testimonial-content">
+            <p>"Finding specialized teachers through AutiSense has made such a difference. The games are fun but also educational, and my child looks forward to his lessons every day."</p>
+            <h4>Lisa Rodriguez</h4>
+            <span>Mother of Carlos, 7</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to start your child's learning journey?</h2>
+      <p>Join thousands of families who've discovered the power of personalized learning.</p>
+      <a href="register.html" class="btn btn-primary pulse">Get Started Today</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h3>Auti<span>Sense</span></h3>
+          <p>Making learning accessible and fun for children with autism.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lesson.html">Lessons</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="teachers.html">Teachers</a></li>
+            <li><a href="ai.html">AI Assistant</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Research</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>Email: support@autisense.com</p>
+          <p>Phone: (123) 456-7890</p>
+          <div class="social-icons">
+            <a href="#"><span>Facebook</span></a>
+            <a href="#"><span>Twitter</span></a>
+            <a href="#"><span>Instagram</span></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 AutiSense. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Burger menu functionality
+      const burgerIcon = document.querySelector('.burger-icon');
+      const mobileNav = document.querySelector('.mobile-nav');
+      const body = document.body;
+      
+      burgerIcon.addEventListener('click', function() {
+        this.classList.toggle('active');
+        mobileNav.classList.toggle('active');
+        body.classList.toggle('menu-open');
+      });
+      
+      // Close menu when clicking on a link
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          burgerIcon.classList.remove('active');
+          mobileNav.classList.remove('active');
+          body.classList.remove('menu-open');
+        });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const isClickInsideMenu = mobileNav.contains(event.target);
+        const isClickOnBurger = burgerIcon.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnBurger && mobileNav.classList.contains('active')) {
+          burgerIcon.classList.remove('active');
+          mobileNav.classList.remove('active');
+          body.classList.remove('menu-open');
+        }
+      });
+      
+      // Testimonial slider functionality
+      const testimonialCards = document.querySelectorAll('.testimonial-card');
+      const dots = document.querySelectorAll('.dot');
+      let currentIndex = 0;
+      
+      function showTestimonial(index) {
+        testimonialCards.forEach(card => card.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        testimonialCards[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentIndex = index;
+      }
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showTestimonial(index);
+        });
+      });
+      
+      // Auto-rotate testimonials
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % testimonialCards.length;
+        showTestimonial(currentIndex);
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

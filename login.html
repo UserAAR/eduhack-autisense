@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AutiSense</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="stars-background">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h1 class="logo-title">AutiSense</h1>
+        </a>   
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="parent.html">Parent Dashboard</a></li>
+          <li><a href="ai.html">AI Insights</a></li>
+          <li><a href="lesson.html">Lessons</a></li>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="teachers.html">Teachers</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+          <li><a href="register.html" class="btn btn-register">Register</a></li>
+        </ul>
+      </nav>
+      <div class="burger-menu">
+        <div class="burger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-nav">
+      <ul>
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="lesson.html">Lessons</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="teachers.html">Teachers</a></li>
+        <li><a href="ai.html">AI Insights</a></li>
+        <li><a href="parent.html">Parent Dashboard</a></li>
+        <li><a href="login.html" class="btn btn-login">Login</a></li>
+        <li><a href="register.html" class="btn btn-register">Register</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="auth-section">
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-image scale-up">
+          <lottie-player 
+            src="https://assets2.lottiefiles.com/private_files/lf30_ulp9xiqw.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 100%; height: 300px;" 
+            loop 
+            autoplay>
+          </lottie-player>
+        </div>
+        <div class="auth-form-container slide-up">
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-target="parent-login">Parent</button>
+            <button class="auth-tab" data-target="teacher-login">Teacher</button>
+          </div>
+          
+          <div class="auth-form active" id="parent-login">
+            <h2>Parent Login</h2>
+            <p>Welcome back! Login to access your child's learning journey.</p>
+            
+            <form id="parent-login-form">
+              <div class="form-group">
+                <label for="parent-email">Email</label>
+                <input type="email" id="parent-email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="parent-password">Password</label>
+                <input type="password" id="parent-password" name="password" required>
+              </div>
+              
+              <div class="form-footer">
+                <div class="remember-me">
+                  <input type="checkbox" id="remember-parent">
+                  <label for="remember-parent">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Login</button>
+              <div class="auth-message" id="parent-login-message"></div>
+            </form>
+            
+            <div class="auth-redirect">
+              <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
+          </div>
+          
+          <div class="auth-form" id="teacher-login">
+            <h2>Teacher Login</h2>
+            <p>Welcome back! Login to access your teaching dashboard.</p>
+            
+            <form id="teacher-login-form">
+              <div class="form-group">
+                <label for="teacher-email">Email</label>
+                <input type="email" id="teacher-email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="teacher-password">Password</label>
+                <input type="password" id="teacher-password" name="password" required>
+              </div>
+              
+              <div class="form-footer">
+                <div class="remember-me">
+                  <input type="checkbox" id="remember-teacher">
+                  <label for="remember-teacher">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Login</button>
+              <div class="auth-message" id="teacher-login-message"></div>
+            </form>
+            
+            <div class="auth-redirect">
+              <p>Don't have an account? <a href="teacher-register.html">Register as a teacher</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h3>Auti<span>Sense</span></h3>
+          <p>Making learning accessible and fun for children with autism.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lesson.html">Lessons</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="teachers.html">Teachers</a></li>
+            <li><a href="ai.html">AI Assistant</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Research</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p>Email: support@autisense.com</p>
+          <p>Phone: (123) 456-7890</p>
+          <div class="social-icons">
+            <a href="#"><span>Facebook</span></a>
+            <a href="#"><span>Twitter</span></a>
+            <a href="#"><span>Instagram</span></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 AutiSense. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="supabase.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games - AutiSense</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* Games Page Specific Styles */
+    .category-section {
+      margin-bottom: 40px;
+    }
+    
+    .category-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(106, 90, 205, 0.2);
+    }
+    
+    .category-header h2 {
+      color: var(--primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .category-header .category-icon {
+      margin-right: 12px;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+    }
+    
+    .category-header .math-icon {
+      background-color: rgba(106, 90, 205, 0.2);
+      color: var(--primary);
+    }
+    
+    .category-header .recognition-icon {
+      background-color: rgba(255, 154, 162, 0.2);
+      color: #ff6b78;
+    }
+    
+    .category-header .learning-icon {
+      background-color: rgba(255, 179, 71, 0.2);
+      color: #ff9124;
+    }
+    
+    .category-header .focus-icon {
+      background-color: rgba(255, 218, 193, 0.2);
+      color: #ff9e6b;
+    }
+    
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    
+    .game-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .game-image {
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .game-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .game-card:hover .game-image img {
+      transform: scale(1.05);
+    }
+    
+    .game-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      z-index: 1;
+    }
+    
+    .badge-age {
+      background-color: rgba(255, 179, 71, 0.9);
+      color: white;
+    }
+    
+    .badge-type {
+      background-color: rgba(106, 90, 205, 0.9);
+      color: white;
+    }
+    
+    .game-content {
+      padding: 20px;
+    }
+    
+    .game-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: var(--primary);
+    }
+    
+    .game-description {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+    
+    .game-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .play-btn:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    
+    .play-btn svg {
+      margin-right: 6px;
+    }
+    
+    .game-difficulty {
+      display: flex;
+      gap: 3px;
+    }
+    
+    .difficulty-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #e0e0e0;
+    }
+    
+    .difficulty-dot.active {
+      background-color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .games-grid {
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h3 class="logo-title">AutiSense</h3>
+        </a>        
+      </div>
+      <button class="sidebar-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="sidebar-content">
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=parent" alt="Parent Avatar">
+        </div>
+        <div class="profile-info">
+          <h4 id="parent-name">Parent Name</h4>
+          <p>Parent Account</p>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="parent.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="children.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Children
+            </a>
+          </li>
+          <li>
+            <a href="lesson.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Lessons
+            </a>
+          </li>
+          <li class="active">
+            <a href="games.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+              </svg>
+              Games
+            </a>
+          </li>
+          <li>
+            <a href="ai.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+              AI Insights
+            </a>
+          </li>
+          <li>
+            <a href="teachers.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              Teachers
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+    <div class="sidebar-footer">
+      <a href="#" id="logout-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="dashboard-header">
+      <div class="header-left">
+        <button class="menu-toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1>Games</h1>
+      </div>
+      
+      <div class="header-right">
+        <div class="child-switcher">
+          <div class="selected-child">
+            <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child1" alt="Child Avatar">
+            <span id="current-child-name">Alex's Journey</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          
+          <div class="child-dropdown">
+            <div class="child-option active" data-child-id="1">
+              <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child1" alt="Child Avatar">
+              <span>Alex</span>
+            </div>
+            <div class="child-option" data-child-id="2">
+              <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child2" alt="Child Avatar">
+              <span>Emma</span>
+            </div>
+            <div class="add-child">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span>Add Child</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notification-badge">3</span>
+        </div>
+      </div>
+    </header>
+    
+    <div class="dashboard-content">
+      <!-- Math Games Section -->
+      <section class="category-section">
+        <div class="category-header">
+          <div class="category-icon math-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+          </div>
+          <h2>Math Games</h2>
+        </div>
+        
+        <div class="games-grid">
+          <a href="games/math1.html" class="game-card">
+            <div class="game-image">
+              <img src="img/5197211699097235650.jpg" alt="Counting Stars Game">
+              <div class="game-badge badge-age">Ages 6-9</div>
+            </div>
+            <div class="game-content">
+                <h3 class="game-title">Math Mission: Add & Subtract</h3>
+                <p class="game-description">Help the space explorer solve fun addition and subtraction problems to collect stars and unlock new planets!</p>                
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=shapeSort" alt="Shape Sorter Game">
+              <div class="game-badge badge-age">Ages 3-6</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Shape Sorter</h3>
+              <p class="game-description">Drag and drop shapes into their matching slots. Learn geometric shapes!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=mathFruits" alt="Math Fruits Game">
+              <div class="game-badge badge-age">Ages 5-8</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Math Fruits</h3>
+              <p class="game-description">Add and subtract fruits to solve problems. A tasty way to learn basic math!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=numberTrain" alt="Number Train Game">
+              <div class="game-badge badge-age">Ages 4-7</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Number Train</h3>
+              <p class="game-description">Arrange number carriages in the right order to complete the train journey!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+      
+      <!-- Object Recognition Section -->
+      <section class="category-section">
+        <div class="category-header">
+          <div class="category-icon recognition-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <h2>Object Recognition</h2>
+        </div>
+        
+        <div class="games-grid">
+          <a href="games/objects1.html" class="game-card">
+            <div class="game-image">
+              <img src="img/ChatGPT Image 19 Nis 2025 19_09_15.png" alt="What Is It? Game">
+              <div class="game-badge badge-type">Matching</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">What Is It?</h3>
+              <p class="game-description">Identify everyday objects from close-up images. Sharpen your recognition skills!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=matchPairs" alt="Match Pairs Game">
+              <div class="game-badge badge-type">Puzzle</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Match Pairs</h3>
+              <p class="game-description">Find matching pairs of household items. A classic memory game with a twist!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=dragDrop" alt="Drag and Drop Game">
+              <div class="game-badge badge-type">Sorting</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Drag and Drop</h3>
+              <p class="game-description">Sort objects into their correct categories. Learn about classifications!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+      
+      <!-- General Learning Section -->
+      <section class="category-section">
+        <div class="category-header">
+          <div class="category-icon learning-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+              <path d="M2 2l7.586 7.586"></path>
+              <circle cx="11" cy="11" r="2"></circle>
+            </svg>
+          </div>
+          <h2>General Learning</h2>
+        </div>
+        
+        <div class="games-grid">
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=dailyRoutines" alt="Daily Routines Game">
+              <div class="game-badge badge-type">Sequencing</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Daily Routines</h3>
+              <p class="game-description">Arrange daily activities in the correct order. Learn about routines and schedules!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=colorMixer" alt="Color Mixer Game">
+              <div class="game-badge badge-type">Creative</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Color Mixer</h3>
+              <p class="game-description">Mix primary colors to create new ones. A fun way to learn about color theory!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=hygiene" alt="Hygiene Heroes Game">
+              <div class="game-badge badge-type">Educational</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Hygiene Heroes</h3>
+              <p class="game-description">Help characters complete hygiene tasks correctly. Learn about personal care!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=sortingGame" alt="Sorting Game">
+              <div class="game-badge badge-type">Logic</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Sort It Out</h3>
+              <p class="game-description">Sort objects by size, color, or shape. Develop logical thinking and categorization skills!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+      
+      <!-- Attention & Focus Section -->
+      <section class="category-section">
+        <div class="category-header">
+          <div class="category-icon focus-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
+          <h2>Attention & Focus</h2>
+        </div>
+        
+        <div class="games-grid">
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=memoryCards" alt="Memory Cards Game">
+              <div class="game-badge badge-type">Memory</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Memory Cards</h3>
+              <p class="game-description">Find matching pairs of cards. Improve your memory and concentration!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=spotDifference" alt="Spot the Difference Game">
+              <div class="game-badge badge-type">Visual</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Spot the Difference</h3>
+              <p class="game-description">Find differences between two similar images. Sharpen your attention to detail!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=quickTap" alt="Quick Tap Game">
+              <div class="game-badge badge-type">Reaction</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Quick Tap</h3>
+              <p class="game-description">Tap targets as they appear on screen. Improve your reaction time and focus!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="game-card">
+            <div class="game-image">
+              <img src="https://api.dicebear.com/6.x/shapes/svg?seed=patternMatch" alt="Pattern Match Game">
+              <div class="game-badge badge-type">Pattern</div>
+            </div>
+            <div class="game-content">
+              <h3 class="game-title">Pattern Match</h3>
+              <p class="game-description">Repeat growing sequences of colors and sounds. Strengthen working memory and focus!</p>
+              <div class="game-footer">
+                <div class="play-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  Play Now
+                </div>
+                <div class="game-difficulty">
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                  <span class="difficulty-dot active"></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize sidebar toggle functionality
+      const menuToggle = document.querySelector('.menu-toggle');
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar');
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+          sidebar.classList.add('active');
+        });
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+          sidebar.classList.remove('active');
+        });
+      }
+
+      // Initialize child switcher
+      const childOptions = document.querySelectorAll('.child-option');
+      const currentChildName = document.getElementById('current-child-name');
+
+      childOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove active class from all options
+          childOptions.forEach(opt => opt.classList.remove('active'));
+          
+          // Add active class to clicked option
+          this.classList.add('active');
+          
+          // Update child name
+          const childName = this.querySelector('span').textContent;
+          if (currentChildName) currentChildName.textContent = `${childName}'s Journey`;
+        });
+      });
+
+      // Game cards hover effects
+      const gameCards = document.querySelectorAll('.game-card');
+      
+      gameCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.querySelector('.game-image img').style.transform = 'scale(1.05)';
+          this.querySelector('.play-btn').style.backgroundColor = 'var(--primary-light)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.querySelector('.game-image img').style.transform = '';
+          this.querySelector('.play-btn').style.backgroundColor = '';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

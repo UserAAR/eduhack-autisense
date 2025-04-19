@@ -1,0 +1,262 @@
+/* Lessons Page Styles */
+
+/* Lessons Header */
+
+.logo-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+
+.lessons-header {
+  margin-bottom: 30px;
+}
+
+.lessons-search {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.lessons-search input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #eaeaea;
+  border-radius: var(--border-radius);
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.lessons-search input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
+}
+
+.lessons-search button {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.lessons-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.filter select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #eaeaea;
+  border-radius: var(--border-radius);
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  background-color: white;
+  cursor: pointer;
+}
+
+.filter select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
+}
+
+/* Lessons Grid */
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.lesson-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-image {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.lesson-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.lesson-card:hover .lesson-image img {
+  transform: scale(1.05);
+}
+
+.lesson-category {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lesson-duration {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.lesson-completed {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--success);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lesson-content {
+  padding: 20px;
+}
+
+.lesson-content h3 {
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.lesson-content p {
+  margin-bottom: 15px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.progress-bar {
+  height: 5px;
+  background-color: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 3px;
+}
+
+.lesson-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lesson-difficulty {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.difficulty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin-right: 3px;
+}
+/*  */
+
+.sidebar-nav ul {
+  display: flex;
+  flex-direction: column; /* Alt-alta düzülməsi üçün */
+  gap: 10px; /* İstəyə görə aralıq */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  width: 100%;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: background 0.3s;
+}
+
+.sidebar-nav a:hover {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+
+
+
+
+/*  */
+
+.difficulty-dot.active {
+  background-color: var(--primary);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .lessons-filters {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter {
+    min-width: 100%;
+  }
+}

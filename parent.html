@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Dashboard - AutiSense</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <a href="index.html" class="logo">
+          <img src="https://api.dicebear.com/6.x/shapes/svg?seed=autiSense" alt="AutiSense Logo" width="40" height="40">
+          <h3 class="logo-title">AutiSense</h3>
+        </a>        
+      </div>
+      <button class="sidebar-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="sidebar-content">
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=parent" alt="Parent Avatar">
+        </div>
+        <div class="profile-info">
+          <h4 id="parent-name">Parent Name</h4>
+          <p>Parent Account</p>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">
+            <a href="parent.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="children.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              Children
+            </a>
+          </li>
+          <li>
+            <a href="lesson.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              Lessons
+            </a>
+          </li>
+          <li>
+            <a href="games.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+              </svg>
+              Games
+            </a>
+          </li>
+          <li>
+            <a href="ai.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+              AI Insights
+            </a>
+          </li>
+          <li>
+            <a href="teachers.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              Teachers
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+    <div class="sidebar-footer">
+      <a href="#" id="logout-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="dashboard-header">
+      <div class="header-left">
+        <button class="menu-toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1>Dashboard</h1>
+      </div>
+      
+      <div class="header-right">
+        <div class="child-switcher">
+          <div class="selected-child">
+            <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child1" alt="Child Avatar">
+            <span id="current-child-name">Alex's Journey</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          
+          <div class="child-dropdown">
+            <div class="child-option active" data-child-id="1">
+              <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child1" alt="Child Avatar">
+              <span>Alex</span>
+            </div>
+            <div class="child-option" data-child-id="2">
+              <img src="https://api.dicebear.com/6.x/avataaars-neutral/svg?seed=child2" alt="Child Avatar">
+              <span>Emma</span>
+            </div>
+            <div class="add-child">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span>Add Child</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notification-badge">3</span>
+        </div>
+      </div>
+    </header>
+    
+    <div class="dashboard-content">
+      <section class="dashboard-overview">
+        <div class="dashboard-welcome">
+          <div class="welcome-text">
+            <h2>Welcome back, <span id="welcome-parent-name">Parent</span>!</h2>
+            <p>Here's how <span id="welcome-child-name">Alex</span> is doing today.</p>
+          </div>
+          <div class="welcome-image">
+            <lottie-player 
+              src="https://assets1.lottiefiles.com/packages/lf20_touohxv0.json" 
+              background="transparent" 
+              speed="1" 
+              style="width: 120px; height: 120px;" 
+              loop 
+              autoplay>
+            </lottie-player>
+          </div>
+        </div>
+        
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-icon" style="background-color: rgba(106, 90, 205, 0.2);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A5ACD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3>Completed Lessons</h3>
+              <p class="stat-value">12</p>
+              <p class="stat-change positive">+2 this week</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background-color: rgba(255, 154, 162, 0.2);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF9AA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3>Played Games</h3>
+              <p class="stat-value">8</p>
+              <p class="stat-change positive">+3 this week</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background-color: rgba(255, 179, 71, 0.2);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB347" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3>Achievements</h3>
+              <p class="stat-value">5</p>
+              <p class="stat-change positive">+1 this week</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background-color: rgba(255, 218, 193, 0.2);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFDAC1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <h3>Total Points</h3>
+              <p class="stat-value">320</p>
+              <p class="stat-change positive">+45 this week</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="dashboard-charts">
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>Learning Progress</h3>
+            <div class="chart-actions">
+              <button class="chart-action active" data-period="week">Week</button>
+              <button class="chart-action" data-period="month">Month</button>
+              <button class="chart-action" data-period="year">Year</button>
+            </div>
+          </div>
+          <div class="chart-body">
+            <canvas id="progressChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>Engagement Time</h3>
+            <div class="chart-actions">
+              <button class="chart-action active" data-period="week">Week</button>
+              <button class="chart-action" data-period="month">Month</button>
+              <button class="chart-action" data-period="year">Year</button>
+            </div>
+          </div>
+          <div class="chart-body">
+            <canvas id="engagementChart"></canvas>
+          </div>
+        </div>
+      </section>
+      
+      <section class="dashboard-grid">
+        <div class="grid-item recent-lessons">
+          <div class="grid-header">
+            <h3>Recent Lessons</h3>
+            <a href="lesson.html" class="view-all">View All</a>
+          </div>
+          <div class="grid-content">
+            <div class="recent-lesson">
+              <div class="lesson-icon" style="background-color: rgba(106, 90, 205, 0.2);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A5ACD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="lesson-info">
+                <h4>Emotions and Feelings</h4>
+                <p>Last viewed: Yesterday</p>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 80%;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="recent-lesson">
+              <div class="lesson-icon" style="background-color: rgba(255, 154, 162, 0.2);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF9AA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="lesson-info">
+                <h4>Communication Skills</h4>
+                <p>Last viewed: 2 days ago</p>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 65%;"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="recent-lesson">
+              <div class="lesson-icon" style="background-color: rgba(255, 218, 193, 0.2);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFDAC1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="lesson-info">
+                <h4>Social Interaction</h4>
+                <p>Last viewed: 3 days ago</p>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 45%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid-item favorite-games">
+          <div class="grid-header">
+            <h3>Favorite Games</h3>
+            <a href="games.html" class="view-all">View All</a>
+          </div>
+          <div class="grid-content">
+            <div class="favorite-game">
+              <div class="game-icon bounce">
+                <img src="https://api.dicebear.com/6.x/shapes/svg?seed=game1" alt="Game Icon">
+              </div>
+              <div class="game-info">
+                <h4>Memory Match</h4>
+                <p>Played 12 times</p>
+                <div class="game-stars">
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="favorite-game">
+              <div class="game-icon bounce">
+                <img src="https://api.dicebear.com/6.x/shapes/svg?seed=game2" alt="Game Icon">
+              </div>
+              <div class="game-info">
+                <h4>Emotion Puzzle</h4>
+                <p>Played 8 times</p>
+                <div class="game-stars">
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="favorite-game">
+              <div class="game-icon bounce">
+                <img src="https://api.dicebear.com/6.x/shapes/svg?seed=game3" alt="Game Icon">
+              </div>
+              <div class="game-info">
+                <h4>Color Sort</h4>
+                <p>Played 7 times</p>
+                <div class="game-stars">
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                  <span class="star active">★</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid-item ai-insights">
+          <div class="grid-header">
+            <h3>AI Insights</h3>
+            <a href="ai.html" class="view-all">View All</a>
+          </div>
+          <div class="grid-content">
+            <div class="insight-card">
+              <div class="insight-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                  <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                  <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                </svg>
+              </div>
+              <div class="insight-content">
+                <p>Alex responds well to visual content and shows improved engagement with animated lessons.</p>
+              </div>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg>
+              </div>
+              <div class="insight-content">
+                <p>The "Emotions and Feelings" lesson has shown the most significant improvement in social interactions.</p>
+              </div>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="insight-content">
+                <p>Shorter, more frequent learning sessions (15-20 minutes) show better knowledge retention.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid-item recommended-teachers">
+          <div class="grid-header">
+            <h3>Recommended Teachers</h3>
+            <a href="teachers.html" class="view-all">View All</a>
+          </div>
+          <div class="grid-content">
+            <div class="teacher-card">
+              <div class="teacher-avatar">
+                <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=teacher1" alt="Teacher Avatar">
+              </div>
+              <div class="teacher-info">
+                <h4>Sarah Johnson</h4>
+                <p>Specializes in social skills for children with autism</p>
+                <a href="#" class="btn btn-small">View Profile</a>
+              </div>
+            </div>
+            
+            <div class="teacher-card">
+              <div class="teacher-avatar">
+                <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=teacher2" alt="Teacher Avatar">
+              </div>
+              <div class="teacher-info">
+                <h4>Michael Thompson</h4>
+                <p>Focuses on communication skills development</p>
+                <a href="#" class="btn btn-small">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+  <script src="supabase.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
